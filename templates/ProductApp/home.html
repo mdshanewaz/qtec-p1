@@ -1,8 +1,20 @@
 {% extends 'index.html' %}
+{% load crispy_forms_tags %}
 
 {% block title_block %} {{ title }} {% endblock %}
 
 {% block body_block %}
+<div class="container">
+    <h2 class="mt-5">Search Products</h2>
+    <hr>
+    <form class="d-flex" method="get" action="">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <button class="btn btn-success ms-3" type="submit">SUBMIT</button>
+    </form>
+<hr>
+</div>
+
 <div class="container my-5">
     <h2 class="my-5">Featured Product</h2>
     <div class="row">
@@ -18,7 +30,8 @@
                         <div class="price-wrap h5">
                             <span class="price-new">Price: &#2547; {{ product.price|floatformat:2 }}</span>
                             <br>
-                            <span class="price-old">Old Price: &#2547; <strike>{{ product.old_price|floatformat:2 }}</strike></span>
+                            <span class="price-old">Old Price: &#2547; <strike>{{ product.old_price|floatformat:2 }}</strike>
+                            </span>
                         </div>
                     </div>
                 </figcaption>
