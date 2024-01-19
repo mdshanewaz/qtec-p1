@@ -27,6 +27,9 @@ class BrandModel(models.Model):
 class WarrantyModel(models.Model):
     year = models.PositiveIntegerField(max_length=10)
     created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.year)
     
     class Meta:
         verbose_name_plural = "Warranties"

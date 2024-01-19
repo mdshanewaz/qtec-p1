@@ -9,7 +9,6 @@ def home_view(request):
     form = ProductSearchForm(request.GET)
 
     if form.is_valid():
-        print("hehe boy")
         category = form.cleaned_data.get('category')
         brand = form.cleaned_data.get('brand')
         warranty = form.cleaned_data.get('warranty')
