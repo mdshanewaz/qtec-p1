@@ -4,12 +4,11 @@
 {% block title_block %} {{ title }} {% endblock %}
 
 {% block body_block %}
-<h2 class="mt-5">Create A New Account</h2>
+<h2 class="mt-5">Your profile</h2>
 <form method="POST">
     {{ form|crispy }}
     {% csrf_token %}
-    <button class="btn btn-success btn-sm" type="submit">SIGNUP</button>
+    <button class="btn btn-success btn-sm" type="submit">SAVE</button>
 </form>
 <hr>
-<p>Already have an account? <a href="{% url 'LoginApp:login' %}">Login</a></p>
 {% endblock %}
