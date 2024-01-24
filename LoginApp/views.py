@@ -64,3 +64,7 @@ def editprofile_view(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse('ProductApp:home'))
+
+@login_required
+def profile_view(request):
+    pass
