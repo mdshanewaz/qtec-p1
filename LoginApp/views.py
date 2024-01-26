@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from django.urls import reverse
 
 from django.contrib.auth import authenticate, login, logout
@@ -23,9 +23,9 @@ def signup_view(request):
             user_profile = UserprofileModel(user=user)
             user_profile.save()
             
-            return HttpResponseRedirect(reverse('Login_App:login'))
+            return HttpResponseRedirect(reverse('LoginApp:login'))
 
-    return render(request, 'LoginApp/signup.html', context={'title':'SignUp', 'form':form, 'registered':registered})
+    return render(request, 'LoginApp/signup.html', context={'title':'Signup', 'form':form, 'registered':registered})
 
 def login_view(request):
     form = AuthenticationForm()
@@ -41,13 +41,13 @@ def login_view(request):
             
             if user is  not None:
                 login(request, user)
-                return HttpResponseRedirect(reverse('Posts_App:home'))
+                return HttpResponseRedirect(reverse('ProductApp:home'))
 
     return render(request, 'LoginApp/login.html', context={'title':'Login', 'form':form})
 
 @login_required
 def editprofile_view(request):
-    current_user = UserprofileModel.objects.get(user=request.user)
+    current_user = get_object_or_404(UserprofileModel, user=request.user)
     form = EditProfile(instance=current_user)
 
     if request.method == 'POST':
@@ -56,7 +56,7 @@ def editprofile_view(request):
         if form.is_valid():
             form.save(commit=True)
             form = EditProfile(instance=current_user)
-            return HttpResponseRedirect(reverse('Login_App:profile'))
+            return HttpResponseRedirect(reverse('LoginApp:profile'))
 
     return render(request, 'LoginApp/profile.html', context={'title':'Profile', 'form':form})
 
@@ -64,7 +64,3 @@ def editprofile_view(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse('ProductApp:home'))
-
-@login_required
-def profile_view(request):
-    pass
