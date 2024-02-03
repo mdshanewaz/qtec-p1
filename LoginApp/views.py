@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 from LoginApp.models import UserprofileModel
 from LoginApp.forms import CreateUserForm, EditProfile
 
+#Pass formate 1234@username
+
 # Create your views here.
 
 def signup_view(request):

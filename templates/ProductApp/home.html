@@ -1,43 +1,87 @@
 {% extends 'index.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
 
 {% block title_block %} {{ title }} {% endblock %}
 
 {% block body_block %}
-<div class="container">
-    <h2 class="mt-5">Search Products</h2>
-    <hr>
-    <form class="d-flex" method="get" action="">
-        {{ form.as_p }}
-        {% csrf_token %}
-        <button class="btn btn-success ms-3" type="submit">SUBMIT</button>
-    </form>
-<hr>
+
+<div class="banner">
+    <img class="img img-fluid w-100" src="{% static 'img/banner.png' %}" alt="">
 </div>
 
-<div class="container my-5">
-    <h2 class="my-5">Featured Product</h2>
+<div class="container">
     <div class="row">
-        {% for product in products %}
-        <div class="col-md-6 col-sm-12 col-lg-3">
-            <figure class="card card-product">
-                <div class="img-wrap">
-                    <img src="/media/{{ product.mainimage }}" class="img img-fluid" alt="" style="width: 100%; height: 300px;">
+        <div class="col-md-3">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="mt-md-5 text-center">Search Products</h2>
+                    <hr>
+                    <form class="d-flex flex-column flex-row align-items-center align-items-md-start" method="get" action="" id="search-form">
+                        {{ form.as_p }}
+                        {% csrf_token %}
+                        <button class="btn btn-success ms-3" type="submit">SUBMIT</button>
+                    </form>
+                    <hr>
                 </div>
-                <figcaption class="info-wrap">
-                    <h6 class="title"><a href="#">{{ product.name }}</a></h6>
-                    <div class="action-wrap">
-                        <div class="price-wrap h5">
-                            <span class="price-new">Price: &#2547; {{ product.price|floatformat:2 }}</span>
-                            <br>
-                            <span class="price-old">Old Price: &#2547; <strike>{{ product.old_price|floatformat:2 }}</strike>
-                            </span>
-                        </div>
-                    </div>
-                </figcaption>
-            </figure>
+            </div>
         </div>
-        {% endfor %}
+        <div class="col-md-9">
+            <h2 class="mt-5 text-center">Featured Product</h2>
+            <hr>
+            <div class="row">
+                {% for product in products %}
+                <div class="col-md-6 col-sm-12 col-lg-3" id="search-results-container">
+                    <figure class="card card-product">
+                        <div class="img-wrap">
+                            <img src="/media/{{ product.mainimage }}" class="img img-fluid" alt="" style="width: 100%; height: 300px;">
+                        </div>
+                        <figcaption class="info-wrap">
+                            <h6 class="title"><a href="#">{{ product.name }}</a></h6>
+                            <div class="action-wrap">
+                                <div class="price-wrap h5">
+                                    <span class="price-new">Price: &#2547; {{ product.price|floatformat:2 }}</span>
+                                    <br>
+                                    <span class="price-old">Old Price: &#2547; <strike>{{ product.old_price|floatformat:2 }}</strike>
+                                    </span>
+                                </div>
+                            </div>
+                        </figcaption>
+                    </figure>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 </div>
+
+<!-- Include jQuery (make sure it is loaded before this script) -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Handle form submission
+        $('#search-form').submit(function (e) {
+            e.preventDefault();  // Prevent the form from submitting the traditional way
+
+            // Perform AJAX request
+            console.log('Before AJAX call');
+
+            $.ajax({
+                type: 'GET',
+                url: '{% url "ProductApp:home" %}',
+                data: $(this).serialize(),  // Serialize the form data
+                success: function (data) {
+                    // Update the search results container with the received HTML
+                    $('#search-results-container').html(data.html_result);
+                },
+                error: function () {
+                    console.log('Error in AJAX request');
+                }
+            });
+        });
+    });
+</script>
+
+
 {% endblock %} 

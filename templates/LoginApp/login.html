@@ -4,7 +4,8 @@
 {% block title_block %} {{ title }} {% endblock %}
 
 {% block body_block %}
-<h2 class="mt-5 mb-3">Login To Your Account</h2>
+<div class="container">
+    <h2 class="mt-5 mb-3">Login To Your Account</h2>
 <form method="POST">
     {{ form|crispy }}
     {% csrf_token %}
@@ -13,4 +14,5 @@
 <hr>
 <br>
 <p class="mb-5">Already have an account? <a href="{% url 'LoginApp:signup' %}">Signup</a></p>
+</div>
 {% endblock %}
