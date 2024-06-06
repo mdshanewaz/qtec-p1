@@ -17,11 +17,52 @@
                 <div class="col-md-12">
                     <h2 class="mt-md-5 text-center">Search Products</h2>
                     <hr>
-                    <form class="d-flex flex-column flex-row align-items-center align-items-md-start" method="get" action="" id="search-form">
-                        {{ form.as_p }}
+                    <!-- <form class="" method="get" action=""> -->
                         {% csrf_token %}
-                        <button class="btn btn-success ms-3" type="submit">SUBMIT</button>
-                    </form>
+                        <div class="mb-2">
+                            <label class="form-label">Category : </label>
+                            <select class="form-select" name="category">
+                                <option value="" selected>All Categories</option>
+                                {% for category in form.category.field.queryset %}
+                                    <option value="{{ category.pk }}">{{ category }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-2">
+                            <label class="form-label">Brands : </label>
+                            <select class="form-select" name="brand">
+                                <option value="" selected>All Brands</option>
+                                {% for brand in form.brand.field.queryset %}
+                                <option value="{{ brand.pk }}">{{ brand }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="mb-2">
+                            <label class="form-label" for="">Warranty : </label>
+                            <select class="form-select" name="warranty">
+                                <option value="" selected>All Warranties</option>
+                                {% for warranty in form.warranty.field.queryset %}
+                                <option value="{{ warranty.pk }}">{{ warranty }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="mb-2">
+                            <label class="form-label" for="">Min Price : </label>
+                            <input class="form-control" type="number" value="{{ form.min_price.value }}">
+                        </div>
+
+                        <div class="mb-2">
+                            <label for="">Max Price : </label>
+                            <input class="form-control" type="number" value="{{ form.max_price.value }}">
+                        </div>
+
+                        <div class="text-center">
+                            <button class="btn btn-success" id="get_data">SEARCH</button>
+                        </div>
+                    <!-- </form> -->
                     <hr>
                 </div>
             </div>
@@ -30,7 +71,14 @@
             <h2 class="mt-5 text-center">Featured Product</h2>
             <hr>
             <div class="row">
-                {% for product in products %}
+                 <!-- -->
+                 <div class="" id="search-results-container">
+                    <div class="col-md-6 col-sm-12 col-lg-3">
+                    </div>
+                </div>
+
+                <!-- -->
+                <!-- {% for product in products %}
                 <div class="col-md-6 col-sm-12 col-lg-3" id="search-results-container">
                     <figure class="card card-product">
                         <div class="img-wrap">
@@ -49,39 +97,10 @@
                         </figcaption>
                     </figure>
                 </div>
-                {% endfor %}
+                {% endfor %} -->
             </div>
         </div>
     </div>
 </div>
-
-<!-- Include jQuery (make sure it is loaded before this script) -->
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-<script>
-    $(document).ready(function () {
-        // Handle form submission
-        $('#search-form').submit(function (e) {
-            e.preventDefault();  // Prevent the form from submitting the traditional way
-
-            // Perform AJAX request
-            console.log('Before AJAX call');
-
-            $.ajax({
-                type: 'GET',
-                url: '{% url "ProductApp:home" %}',
-                data: $(this).serialize(),  // Serialize the form data
-                success: function (data) {
-                    // Update the search results container with the received HTML
-                    $('#search-results-container').html(data.html_result);
-                },
-                error: function () {
-                    console.log('Error in AJAX request');
-                }
-            });
-        });
-    });
-</script>
-
 
 {% endblock %} 
