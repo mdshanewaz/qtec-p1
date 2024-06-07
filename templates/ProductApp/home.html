@@ -21,7 +21,7 @@
                         {% csrf_token %}
                         <div class="mb-2">
                             <label class="form-label">Category : </label>
-                            <select class="form-select" name="category">
+                            <select class="form-select" name="category" id="category">
                                 <option value="" selected>All Categories</option>
                                 {% for category in form.category.field.queryset %}
                                     <option value="{{ category.pk }}">{{ category }}</option>
@@ -31,7 +31,7 @@
 
                         <div class="mb-2">
                             <label class="form-label">Brands : </label>
-                            <select class="form-select" name="brand">
+                            <select class="form-select" name="brand" id="brand">
                                 <option value="" selected>All Brands</option>
                                 {% for brand in form.brand.field.queryset %}
                                 <option value="{{ brand.pk }}">{{ brand }}</option>
@@ -70,15 +70,10 @@
         <div class="col-md-9">
             <h2 class="mt-5 text-center">Featured Product</h2>
             <hr>
-            <div class="row">
-                 <!-- -->
-                 <div class="" id="search-results-container">
-                    <div class="col-md-6 col-sm-12 col-lg-3">
-                    </div>
-                </div>
-
-                <!-- -->
-                <!-- {% for product in products %}
+            <div class="row" id="search-results-holder">
+            </div>
+            <div class="row" id="search-results">
+                {% for product in products %}
                 <div class="col-md-6 col-sm-12 col-lg-3" id="search-results-container">
                     <figure class="card card-product">
                         <div class="img-wrap">
@@ -97,7 +92,7 @@
                         </figcaption>
                     </figure>
                 </div>
-                {% endfor %} -->
+                {% endfor %}
             </div>
         </div>
     </div>
